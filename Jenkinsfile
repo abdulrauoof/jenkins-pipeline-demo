@@ -3,7 +3,7 @@ jettyUrl = 'http://localhost:8081/'
 def servers
 
 def nodeLabel = input(message: 'Where do you want to build this?', 
-parameters: [[$class: 'ChoiceParameterDefinition', choices: ['ec2', 'docker'], name: 'label']])
+parameters: [[$class: 'TextParameterDefinition', defaultValue: 'ec2', description: 'Label for remote agent to use', name: 'label']])
 
 echo "The label is $nodeLabel"
 
