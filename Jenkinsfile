@@ -2,8 +2,12 @@ jettyUrl = 'http://localhost:8081/'
 
 def servers
 
+input message: 'Where do you want to build this?', parameters: [[$class: 'LabelParameterDefinition', allNodesMatchingLabel: false, defaultValue: '', description: 'Options are: ec2, docker', name: 'label', nodeEligibility: [$class: 'AllNodeEligibility'], triggerIfResult: 'allCases']]
+
+//echo "The label is $nodeLabel"
+
 stage 'Dev'
-node('ec2') {
+node {
    checkout scm
    servers = load 'servers.groovy'
    def mvnHome = tool 'M3'
