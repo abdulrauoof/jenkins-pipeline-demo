@@ -3,11 +3,12 @@ jettyUrl = 'http://localhost:8081/'
 def servers
 
 stage 'Dev'
-node {
-    checkout scm
-    servers = load 'servers.groovy'
-    mvn '-o clean package'
-    dir('target') {stash name: 'war', includes: 'x.war'}
+node('ec2') {
+   checkout scm
+   servers = load 'servers.groovy'
+   def mvnHome = tool 'M3'
+   sh "${mvnHome}/bin/mvn -o clean package"
+   dir('target') {stash name: 'war', includes: 'x.war'}
 }
 
 stage 'QA'
