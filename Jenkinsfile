@@ -7,7 +7,7 @@ node('ec2') {
    checkout scm
    servers = load 'servers.groovy'
    def mvnHome = tool 'M3'
-   sh "${mvnHome}/bin/mvn -o clean package"
+   sh "${mvnHome}/bin/mvn clean package"
    dir('target') {stash name: 'war', includes: 'x.war'}
 }
 
