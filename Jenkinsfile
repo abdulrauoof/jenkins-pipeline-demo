@@ -2,8 +2,7 @@ jettyUrl = 'http://localhost:8081/'
 
 def servers
 
-def nodeLabel = input message: 'where do you want to build this?', 
-parameters: [[$class: 'ChoiceParameterDefinition', choices: 'ec2,docker', description: '', name: 'label']]
+def nodeLabel = input message: 'Where do you want to build this?', parameters: [[$class: 'ChoiceParameterDefinition', choices: ['ec2', 'docker', 'mock'], description: '', name: 'My param']]
 
 echo "The label is $nodeLabel"
 
