@@ -2,12 +2,11 @@ jettyUrl = 'http://localhost:8081/'
 
 def servers
 
+stage 'Build'
 choice = new ChoiceParameterDefinition('agent', ['mock', 'ec2', 'docker-cloud'] as String[], 'Agent to use for the build')
 def nodeLabel = input message: 'Where do you want to run this?', parameters: [choice]
 
 echo "The label is $nodeLabel"
-
-stage 'Dev'
 node(nodeLabel) {
    checkout scm
    servers = load 'servers.groovy'
