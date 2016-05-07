@@ -2,7 +2,8 @@ jettyUrl = 'http://localhost:8081/'
 
 def servers
 
-def nodeLabel = input message: 'Where do you want to build this?', parameters: [[$class: 'ChoiceParameterDefinition', choices: ['ec2', 'docker', 'mock'], description: '', name: 'My param']]
+choice = new ChoiceParameterDefinition('agent', ['mock', 'ec2', 'docker-cloud'] as String[], 'Agent to use for the build')
+def nodeLabel = input message: 'Where do you want to run this?', parameters: [choice]
 
 echo "The label is $nodeLabel"
 
