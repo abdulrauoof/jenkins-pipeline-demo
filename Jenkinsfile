@@ -2,12 +2,14 @@ jettyUrl = 'http://localhost:8081/'
 
 def servers
 
-stage 'Build'
-choice = new ChoiceParameterDefinition('agent', ['mock', 'ec2', 'docker'] as String[], 'Agent to use for the build')
-def nodeLabel = input message: 'Where do you want to run this?', parameters: [choice]
+properties ([[$class: 'ParametersDefinitionProperty', parameterDefinitions: [[$class: 'ChoiceParameterDefinition', choices: ['mock', 'docker', 'ec2'], description: 'Where do you want to build this?', name: 'AGENT']]]])
 
-echo "The label is $nodeLabel"
-node(nodeLabel) {
+stage 'Build'
+\\choice = new ChoiceParameterDefinition('agent', ['mock', 'ec2', 'docker'] as String[], 'Agent to use for the build')
+\\def nodeLabel = input message: 'Where do you want to run this?', parameters: [choice]
+
+echo "The agent is $AGENT"
+node($AGENT) {
    checkout scm
    servers = load 'servers.groovy'
    def mvnHome = tool 'M3'
