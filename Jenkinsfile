@@ -9,7 +9,7 @@ stage 'Build'
 //def nodeLabel = input message: 'Where do you want to run this?', parameters: [choice]
 
 echo "The agent is $AGENT"
-node($AGENT) {
+node("$AGENT") {
    checkout scm
    servers = load 'servers.groovy'
    def mvnHome = tool 'M3'
