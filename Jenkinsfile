@@ -5,8 +5,8 @@ def servers
 properties ([[$class: 'ParametersDefinitionProperty', parameterDefinitions: [[$class: 'ChoiceParameterDefinition', choices: ['mock', 'docker', 'ec2'], description: 'Where do you want to build this?', name: 'AGENT']]]])
 
 stage 'Build'
-\\choice = new ChoiceParameterDefinition('agent', ['mock', 'ec2', 'docker'] as String[], 'Agent to use for the build')
-\\def nodeLabel = input message: 'Where do you want to run this?', parameters: [choice]
+//choice = new ChoiceParameterDefinition('agent', ['mock', 'ec2', 'docker'] as String[], 'Agent to use for the build')
+//def nodeLabel = input message: 'Where do you want to run this?', parameters: [choice]
 
 echo "The agent is $AGENT"
 node($AGENT) {
