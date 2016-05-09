@@ -2,10 +2,10 @@ jettyUrl = 'http://localhost:8081/'
 
 def servers
 
-properties ([[$class: 'ParametersDefinitionProperty', parameterDefinitions: [[$class: 'ChoiceParameterDefinition', choices: ['mock', 'docker', 'ec2'], description: 'Where do you want to build this?', name: 'AGENT']]]])
+def choice = new ChoiceParameterDefinition('AGENT', ['mock', 'docker', 'ec2'] as String[], 'Where do you want to build this?')
+properties ([[$class: 'ParametersDefinitionProperty', parameterDefinitions: [choice]]])
 
 stage 'Build'
-//choice = new ChoiceParameterDefinition('agent', ['mock', 'ec2', 'docker'] as String[], 'Agent to use for the build')
 //def nodeLabel = input message: 'Where do you want to run this?', parameters: [choice]
 
 echo "The agent is $AGENT"
