@@ -1,6 +1,6 @@
 def deploy(id) {
     unstash 'war'
-    sh "cp x.war /tmp/webapps/${id}.war"
+    sh "cp demo-war.war /tmp/webapps/${id}.war"
 }
 
 def undeploy(id) {
