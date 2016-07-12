@@ -5,7 +5,7 @@ def servers
 def choice = new ChoiceParameterDefinition('AGENT', ['mock', 'docker', 'ec2'] as String[], 'Where do you want to build this?')
 properties ([[$class: 'ParametersDefinitionProperty', parameterDefinitions: [choice]]])
 
-stage 'Build'
+stage 'Build App'
 //def nodeLabel = input message: 'Where do you want to run this?', parameters: [choice]
 
 echo "The agent is $AGENT"
@@ -19,12 +19,12 @@ node("$AGENT") {
 
 stage 'Tests'
 parallel(longerTests: {
-    runTests(servers, 30)
+    runTests(servers, 15)
 }, quickerTests: {
-    runTests(servers, 20)
+    runTests(servers, 10)
 })
 
-stage 'Docker Build'
+stage 'Build Docker Image'
 node ("docker") {
     def newApp = docker.build "lionelve/demo-war:${env.BUILD_TAG}"
     newApp.push()
