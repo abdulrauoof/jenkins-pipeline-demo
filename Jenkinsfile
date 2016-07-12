@@ -1,4 +1,4 @@
-jettyUrl = 'http://localhost:8081/'
+jettyUrl = 'http://pipeline-demo-918a6c46-1.4de5d103.cont.dockerapp.io:32805/'
 
 def servers
 
@@ -14,7 +14,7 @@ node("$AGENT") {
    servers = load 'servers.groovy'
    def mvnHome = tool 'M3'
    sh "${mvnHome}/bin/mvn clean package"
-   dir('target') {stash name: 'war', includes: 'x.war'}
+   dir('target') {stash name: 'war', includes: 'demo-war.war'}
 }
 
 stage 'QA'
@@ -23,6 +23,12 @@ parallel(longerTests: {
 }, quickerTests: {
     runTests(servers, 20)
 })
+
+stage 'Docker Build'
+node ('docker') {
+    def newApp = docker.build "lionelve/demo-war:${env.BUILD_TAG}"
+    newApp.push()
+}
 
 stage name: 'Staging', concurrency: 1
 node {
