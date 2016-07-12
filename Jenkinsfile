@@ -17,7 +17,7 @@ node("$AGENT") {
    dir('target') {stash name: 'war', includes: 'demo-war.war'}
 }
 
-stage 'QA'
+stage 'Tests'
 parallel(longerTests: {
     runTests(servers, 30)
 }, quickerTests: {
@@ -25,7 +25,7 @@ parallel(longerTests: {
 })
 
 stage 'Docker Build'
-node ('docker') {
+node ("docker") {
     def newApp = docker.build "lionelve/demo-war:${env.BUILD_TAG}"
     newApp.push()
 }
