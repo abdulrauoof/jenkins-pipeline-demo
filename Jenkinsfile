@@ -15,6 +15,7 @@ node("$AGENT") {
    def mvnHome = tool 'M3'
    sh "${mvnHome}/bin/mvn clean package"
    dir('target') {stash name: 'war', includes: 'demo-war.war'}
+   stash name: 'dockerfile', includes: 'Dockerfile' 
 }
 
 stage 'Tests'
@@ -26,6 +27,8 @@ parallel(longerTests: {
 
 stage 'Build Docker Image'
 node ("dockerhost") {
+    unstash 'war'
+    unstash 'dockerfile'
     def newApp = docker.build "lionelve/demo-war:${env.BUILD_NUMBER}"
     newApp.push()
 }
