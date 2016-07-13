@@ -29,7 +29,7 @@ stage 'Build Docker Image'
 node ("dockerhost") {
     unstash 'war'
     unstash 'dockerfile'
-    docker.withRegistry('http://docker.io', 'dockerhub'){
+    docker.withRegistry('https://docker.io', 'dockerhub'){
     def newApp = docker.build "lionelve/demo-war:${env.BUILD_NUMBER}"
     newApp.push()
     }
