@@ -5,7 +5,7 @@ def deploy(id, port, ver) {
      undeploy id
  }
  echo "Running image tag ${ver} as ${id}"
- sh "sudo docker run --name ${id} -d -p ${port}:8080 lionelve/demo-war:${ver}
+ sh "sudo docker run --name ${id} -d -p ${port}:8080 lionelve/demo-war:${ver}"
 }
 
 def undeploy(id) {
