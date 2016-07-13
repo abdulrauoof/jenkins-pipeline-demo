@@ -25,7 +25,7 @@ parallel(longerTests: {
 })
 
 stage 'Build Docker Image'
-node ("docker") {
+node ("dockerhost") {
     def newApp = docker.build "lionelve/demo-war:${env.BUILD_TAG}"
     newApp.push()
 }
