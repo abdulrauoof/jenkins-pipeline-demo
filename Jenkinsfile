@@ -38,7 +38,7 @@ node ("dockerhost") {
     servers.deploy('staging', 8180, "${env.BUILD_NUMBER}")
 }
 
-input message: "Does ${jettyUrl}:8180/staging/ look good?"
+input message: "Does ${jettyUrl}:8180/demo look good?"
 try {
     checkpoint('Before production')
 } catch (NoSuchMethodError _) {
@@ -48,7 +48,7 @@ try {
 stage name: 'Production', concurrency: 1
 node ("dockerhost"){
     servers.deploy('production', 8280, "${env.BUILD_NUMBER}")
-    echo "Deployed to ${jettyUrl}:8280/production/"
+    echo "Deployed to ${jettyUrl}:8280/demo
 }
 
 def mvn(args) {
