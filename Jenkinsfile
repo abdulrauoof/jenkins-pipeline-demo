@@ -34,7 +34,7 @@ node ("dockerhost") {
 }
 
 stage name: 'Staging', concurrency: 1
-node {
+node ("dockerhost") {
     servers.deploy('staging', 8180, "${env.BUILD_NUMBER}")
 }
 
@@ -46,7 +46,7 @@ try {
 }
 
 stage name: 'Production', concurrency: 1
-node {
+node ("dockerhost"){
     servers.deploy('production', 8280, "${env.BUILD_NUMBER}")
     echo "Deployed to ${jettyUrl}:8280/production/"
 }
