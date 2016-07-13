@@ -1,20 +1,18 @@
-def deploy(id) {
-    unstash 'war'
-    sh "cp demo-war.war /tmp/webapps/${id}.war"
+def deploy(id, port, ver) {
+ sh "sudo docker inspect -f {{.State.Running}} ${id} > RUNNING"
+ isRunning=readFile('RUNNING')
+ if(isRunning == 'true') {
+     undeploy id
+ }
+ echo "Running image tag ${ver} as ${id}"
+ sh "sudo docker run --name ${id} -d -p ${port}:8080 lionelve/demo-war:${ver}
 }
 
 def undeploy(id) {
-    sh "rm /tmp/webapps/${id}.war"
+    echo "undeploying ${id}"
+    sh "sudo docker stop ${id}"
+    sh "sudo docker rm ${id}"
 }
 
-def runWithServer(body) {
-    def id = UUID.randomUUID().toString()
-    deploy id
-    try {
-        body.call id
-    } finally {
-        undeploy id
-    }
-}
 
 this

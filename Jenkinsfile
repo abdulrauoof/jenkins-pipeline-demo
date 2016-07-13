@@ -1,4 +1,4 @@
-jettyUrl = 'http://pipeline-demo-918a6c46-1.4de5d103.cont.dockerapp.io:32805/'
+jettyUrl = 'http://104.236.65.18'
 
 def servers
 
@@ -35,10 +35,10 @@ node ("dockerhost") {
 
 stage name: 'Staging', concurrency: 1
 node {
-    servers.deploy 'staging'
+    servers.deploy 'staging', 8180, ${env.BUILD_NUMBER}
 }
 
-input message: "Does ${jettyUrl}staging/ look good?"
+input message: "Does ${jettyUrl}:8180/staging/ look good?"
 try {
     checkpoint('Before production')
 } catch (NoSuchMethodError _) {
@@ -47,10 +47,8 @@ try {
 
 stage name: 'Production', concurrency: 1
 node {
-    sh "wget -O - -S ${jettyUrl}staging/"
-    echo 'Production server looks to be alive'
-    servers.deploy 'production'
-    echo "Deployed to ${jettyUrl}production/"
+    servers.deploy 'production', 8280, ${env.BUILD_NUMBER}
+    echo "Deployed to ${jettyUrl}:8280/production/"
 }
 
 def mvn(args) {
