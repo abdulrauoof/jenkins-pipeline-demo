@@ -1,7 +1,7 @@
 def deploy(id, port, ver) {
- sh "docker inspect -f {{.State.Running}} ${id} > RUNNING"
+ sh "docker ps -a --format=\"{{ .Names }}\" --filter \"name=${id}\" > RUNNING"
  isRunning=readFile('RUNNING')
- if(isRunning == 'true') {
+ if(isRunning?.trim()) {
      undeploy id
  }
  echo "Running image tag ${ver} as ${id}"
