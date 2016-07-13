@@ -29,8 +29,10 @@ stage 'Build Docker Image'
 node ("dockerhost") {
     unstash 'war'
     unstash 'dockerfile'
+    docker.withRegistry('http://docker.io', 'dockerhub'){
     def newApp = docker.build "lionelve/demo-war:${env.BUILD_NUMBER}"
     newApp.push()
+    }
 }
 
 stage name: 'Staging', concurrency: 1
