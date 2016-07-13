@@ -48,7 +48,7 @@ try {
 stage name: 'Production', concurrency: 1
 node ("dockerhost"){
     servers.deploy('production', 8280, "${env.BUILD_NUMBER}")
-    echo "Deployed to ${jettyUrl}:8280/demo
+    echo "Deployed to ${jettyUrl}:8280/demo"
 }
 
 def mvn(args) {
